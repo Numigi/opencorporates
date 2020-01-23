@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT License
 // that can be found in the LICENSE file.
 
-// Package opencorporates is an unofficial Golang API client for the OpenCorporates.
+// Package opencorporates is an unofficial Golang API Client for the OpenCorporates.
 // http://api.opencorporates.com/documentation/API-Reference
 package opencorporates
 
@@ -41,31 +41,31 @@ func (r *request) incr() {
 	r.Unlock()
 }
 
-// client represents the API client.
-type client struct {
+// Client represents the API Client.
+type Client struct {
 	Version,
 	Token string
 	http Getter
 	rq   *request
 }
 
-// API returns a new instance of the client with http default client.
-func API() *client {
-	return &client{
+// API returns a new instance of the Client with http default Client.
+func API() *Client {
+	return &Client{
 		http: http.DefaultClient,
 		rq:   &request{},
 	}
 }
 
 // Request returns the number of call done.
-func (api *client) RequestCount() int {
+func (api *Client) RequestCount() int {
 	api.rq.RLock()
 	defer api.rq.RUnlock()
 	return api.rq.nb
 }
 
 // Companies returns an iterator of companies with its name or / and in this jurisdiction.
-func (api *client) Companies(name, jurisdiction string) *CompanyIterator {
+func (api *Client) Companies(name, jurisdiction string) *CompanyIterator {
 	return &CompanyIterator{
 		api:          api,
 		page:         NewPager(1),
@@ -76,7 +76,7 @@ func (api *client) Companies(name, jurisdiction string) *CompanyIterator {
 
 // CompanyByID returns the company by its identifier and jurisdiction code.
 // companies/fr/529591737
-func (api *client) CompanyByID(id, jurisdiction string) (c Company, err error) {
+func (api *Client) CompanyByID(id, jurisdiction string) (c Company, err error) {
 	url, err := api.url(ByNumberURL, id, jurisdiction)
 	if err != nil {
 		return
@@ -100,7 +100,7 @@ func (api *client) CompanyByID(id, jurisdiction string) (c Company, err error) {
 	return
 }
 
-func (api *client) call(url string) (resp *http.Response, err error) {
+func (api *Client) call(url string) (resp *http.Response, err error) {
 
 	// And increments the counter of request.
 	api.rq.incr()
@@ -135,8 +135,8 @@ type Getter interface {
 	Get(url string) (*http.Response, error)
 }
 
-// UseClient allows to use your own HTTP client to request the API.
-func (api *client) UseClient(http Getter) *client {
+// UseClient allows to use your own HTTP Client to request the API.
+func (api *Client) UseClient(http Getter) *Client {
 	api.http = http
 	return api
 }

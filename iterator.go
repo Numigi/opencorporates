@@ -70,7 +70,7 @@ type Pageable interface {
 
 // CompanyIterator iterates threw a list of companies.
 type CompanyIterator struct {
-	api  *client
+	api  *Client
 	page *Pager
 	name,
 	jurisdiction string
@@ -107,7 +107,7 @@ func (ci *CompanyIterator) Next() (Company, error) {
 	return c, ci.err
 }
 
-func (api *client) companies(name, jurisdiction string, page int) (res []Company, info *Pager, err error) {
+func (api *Client) companies(name, jurisdiction string, page int) (res []Company, info *Pager, err error) {
 	url, err := api.url(ByNameURL, name, jurisdiction, page)
 	if err != nil {
 		return

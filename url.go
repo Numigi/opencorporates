@@ -68,7 +68,7 @@ func companyNumberURL(version string, param ...interface{}) (string, error) {
 	return fmt.Sprintf(URL+ByNumberURL, version, jurisdiction, id), nil
 }
 
-func (api *client) url(method string, param ...interface{}) (s string, err error) {
+func (api *Client) url(method string, param ...interface{}) (s string, err error) {
 	if api.Version == "" {
 		// Default value.
 		api.Version = Version
