@@ -11,8 +11,9 @@ Golang interface for the OpenCorporates service.
 
 ### Installation
 
+fork of https://github.com/rvflash/opencorporates
 ```bash
-$ go get -u github.com/rvflash/opencorporates
+$ go get -u github.com/Numigi/opencorporates
 ```
 
 ### Usage
