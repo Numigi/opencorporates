@@ -69,7 +69,7 @@ func (api *Client) Companies(name, jurisdiction string) *CompanyIterator {
 	return &CompanyIterator{
 		Api:          api,
 		Page:         NewPager(1),
-		name:         name,
+		Name:         name,
 		Jurisdiction: jurisdiction,
 	}
 }
