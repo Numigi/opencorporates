@@ -70,41 +70,41 @@ type Pageable interface {
 
 // CompanyIterator iterates threw a list of companies.
 type CompanyIterator struct {
-	api  *Client
-	page *Pager
-	name,
-	jurisdiction string
-	resp []Company
-	err  error
+	Api          *Client
+	Page         *Pager
+	Name         string
+	Jurisdiction string
+	Resp         []Company
+	Err          error
 }
 
 // Next tries to return the next company in the iterator.
 func (ci *CompanyIterator) Next() (Company, error) {
 	var c Company
-	if ci.page.pos == ci.page.perPage && ci.err == nil {
-		if !ci.page.Single || ci.page.pos == 0 {
-			if ci.page.pos > 0 {
+	if ci.Page.pos == ci.Page.perPage && ci.Err == nil {
+		if !ci.Page.Single || ci.Page.pos == 0 {
+			if ci.Page.pos > 0 {
 				// Go to the next page
-				ci.page.curPage++
+				ci.Page.curPage++
 			}
 			// Retrieves the results
-			ci.resp, ci.page, ci.err = ci.api.companies(ci.name, ci.jurisdiction, ci.page.curPage)
+			ci.Resp, ci.Page, ci.Err = ci.Api.companies(ci.Name, ci.Jurisdiction, ci.Page.curPage)
 		} else {
 			// No more results
-			ci.page.curPage = 0
+			ci.Page.curPage = 0
 		}
 	}
-	if ci.err != nil {
-		return c, ci.err
+	if ci.Err != nil {
+		return c, ci.Err
 	}
-	if ci.page.Remaining() == 0 {
+	if ci.Page.Remaining() == 0 {
 		// No more company to iterate
-		ci.err = EOF
+		ci.Err = EOF
 	} else {
-		c = ci.resp[ci.page.pos]
-		ci.page.pos++
+		c = ci.Resp[ci.Page.pos]
+		ci.Page.pos++
 	}
-	return c, ci.err
+	return c, ci.Err
 }
 
 func (api *Client) companies(name, jurisdiction string, page int) (res []Company, info *Pager, err error) {
@@ -185,5 +185,5 @@ type Company struct {
 // Pager implements the Pageable interface.
 // It returns information associated with the iterator.
 func (ci *CompanyIterator) Info() *Pager {
-	return ci.page
+	return ci.Page
 }

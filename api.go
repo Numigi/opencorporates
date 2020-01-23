@@ -67,10 +67,10 @@ func (api *Client) RequestCount() int {
 // Companies returns an iterator of companies with its name or / and in this jurisdiction.
 func (api *Client) Companies(name, jurisdiction string) *CompanyIterator {
 	return &CompanyIterator{
-		api:          api,
-		page:         NewPager(1),
+		Api:          api,
+		Page:         NewPager(1),
 		name:         name,
-		jurisdiction: jurisdiction,
+		Jurisdiction: jurisdiction,
 	}
 }
 
